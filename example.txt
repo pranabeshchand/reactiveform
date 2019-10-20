@@ -2,10 +2,10 @@ import { Validators, FormControl, FormGroup, FormArray, FormBuilder } from '@ang
 import { ToastrService } from 'ngx-toastr';
 
 
-addReviewForm: FormGroup;
+addxyzFrom: FormGroup;
 
 constructor(private toastr: ToastrService, private formbuilder: FormBuilder) {
-    this.addReviewForm = this.formbuilder.group({
+    this.addxyzFrom = this.formbuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)]],
       comment: ['', Validators.required],
@@ -16,21 +16,21 @@ constructor(private toastr: ToastrService, private formbuilder: FormBuilder) {
 
 
 
-  addReview() {
-    if (this.addReviewForm.invalid) {
+  addxyz() {
+    if (this.addxyzFrom.invalid) {
       this.isSubmited = true;
       return;
     } else {
       this.emailVerifyStatus = true;
-      let emailob: any = { email: this.addReviewForm.value.email }; 
+      let emailob: any = { email: this.addxyzFrom.value.email }; 
           let data = {
-            name: this.addReviewForm.value.name,
-            email: this.addReviewForm.value.email,
-            comment: this.addReviewForm.value.comment
+            name: this.addxyzFrom.value.name,
+            email: this.addxyzFrom.value.email,
+            comment: this.addxyzFrom.value.comment
           } 
         } else {
           console.log("res ", res)
-          this.addReviewForm.value.email = "";
+          this.addxyzFrom.value.email = "";
           this.toastr.error(res.message);
           this.emailVerifyStatus = false;
         } 
@@ -74,33 +74,10 @@ constructor(private toastr: ToastrService, private formbuilder: FormBuilder) {
         *ngIf="addReviewForm.controls['email'].hasError('pattern')">
         Invalid Email
       </p> 
-          </div>
-    <!--
-          <div class="social-modal"> 
-            <div class="custom-check">
-                <input type="checkbox" id="gplus" value="1" (change)="setDutyType($event.target.value, $event.target.checked)">
-                <label for="gplus">
-                  <img src="./assets/images/gplus.png" alt="gplus">    
-                </label>
-            </div>
-
-            <div class="custom-check">
-                <input type="checkbox" id="fplus" value="2" (change)="setDutyType($event.target.value, $event.target.checked)">
-                <label for="fplus">
-                <img src="./assets/images/fplus.png" alt="fplus">    
-                </label>
-            </div>
-
-            <div class="custom-check">
-                <input type="checkbox" id="cirplus" value="3" (change)="setDutyType($event.target.value, $event.target.checked)">
-                <label for="cirplus">
-                <img src="./assets/images/cirplus.png" alt="cirplus">    
-                </label>
-            </div>  
-          </div> --> 
+          </div> 
           <div class="btn-dv text-center"> 
              <div *ngIf="emailVerifyStatus" class="loader-verify"></div>
-              <button type="button" class="btn" (click)="addReview(template3)">NEXT</button>
+              <button type="button" class="btn" (click)="addxyz()">NEXT</button>
              
           </div>
           
