@@ -1,0 +1,59 @@
+function sendMail(to, keyword, templateData, callbackMail) {
+    console.log("keyword ", keyword);
+    EmailTemplate.findOne({
+        'template_code': keyword
+    }, function (err, template) {
+        if (err) {
+            callbackMail(err, null);
+        } else {
+            console.log("templatetemplate ", template)
+            var template_compile = Handlebars.compile(template.template);
+            var email_body = template_compile(templateData);
+            // console.log("template_compile ",email_body) 
+            // console.log("dasdadasd ",constant.sendgridConf.secretKey)
+            var options = {
+                mailbody: email_body
+            }
+            generateTemplate(options, function (mailContent) {
+                const msg = {
+                    to: to,
+                    from: constant.sendgridConf.from,
+                    subject: template.name,
+                    html: mailContent,
+                };
+                sgMail.send(msg, function (err, resp) {
+                    if (err) {
+                        callbackMail(null, {
+                            message: "Mail faild EmailHistory saved successfully"
+                        });
+                    } else {
+                        callbackMail(null, {
+                            message: "Mail sent successfully"
+                        });
+                    }
+                });
+            })
+        }
+    });
+}
+
+
+
+
+var generateTemplate = function (options, callbackg) {
+    var recepient = options.recepient || '',
+        mailbody = options.mailbody;
+
+    var fileName = path.resolve('./api/lib/mailTemplate.html');
+    ejs.renderFile(fileName, {
+        recepient: recepient,
+        mailbody: mailbody
+    }, {}, function (err, str) {
+        if (err) {
+            callbackg(mailbody);
+        } else {
+            console.log("template render")
+            callbackg(str || mailbody);
+        }
+    });
+}
